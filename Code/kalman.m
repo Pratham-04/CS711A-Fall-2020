@@ -1,4 +1,9 @@
-function [e1, e2, s1, s2, k1, k2] = k_update(e1, e2, s1, s2, k1, k2, sigma, util1, util2, chosen_idx, i)
-    if chosen_idx(i,1) == 1
-        
-            
+function [s, e, k] = kalman(rew, sigma, s, e, k, i, t1)
+    k(i,:) = (s(i-1,:) + sigma^2)./(s(i-1,:) + sigma^2);
+    
+    e(i,:) = e(i-1,:);
+    e(i,t1) = e(i,t1) + k(i,t1)*(rew(i) - e(i-1,t1));
+    
+    s(i,:) = s(i-1,:);
+    s(i,t1) = (1 - k(i,t1))*(s(i-1,t1) + sigma^2);
+end
