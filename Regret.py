@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[54]:
+# In[56]:
 
 
 import numpy as np
@@ -37,12 +37,13 @@ def regret(strats, rewards):
     DECAY = 0.95
     GROWTH = 1.05
     rew = MEANREW
-    gameMat = [[[rew[0]/2,rew[0]/2], [rew[0],rew[1]]],
-               [[rew[1],rew[0]], [rew[1]/2,rew[1]/2]]]
 
     regret1 = 0
     regret2 = 0
     for i in range(0,TRIALS):
+        gameMat = [[[rew[0]/2,rew[0]/2], [rew[0],rew[1]]],
+                   [[rew[1],rew[0]], [rew[1]/2,rew[1]/2]]]
+        
         max1 = max(gameMat[0][0][0],gameMat[0][1][0],gameMat[1][0][0],gameMat[1][1][0])
         max2 = max(gameMat[0][0][1],gameMat[0][1][1],gameMat[1][0][1],gameMat[1][1][1])
 
@@ -60,6 +61,8 @@ def regret(strats, rewards):
         else:
             rew[strats[i][0]] *= DECAY
             rew[strats[i][1]] *= DECAY
+        
+        
     
     return regret1, regret2
 
@@ -83,9 +86,9 @@ print()
 
 
 for i in range(28):
-    if regrets[i] > MEAN+2*STD:
+    if regrets[i] > MEAN+STD:
         print(i+1, np.round(regrets[i],2), "GREATER")
-    elif regrets[i] < MEAN-2*STD:
+    elif regrets[i] < MEAN-STD:
         print(i+1, np.round(regrets[i],2), "LESSER")
     else:
         print(i+1, np.round(regrets[i],2))
